@@ -15,14 +15,16 @@ DB_CONFIG = {
 
 def get_one_user_name():
     try:
+        print("Connecting to DB...")
         with psycopg.connect(**DB_CONFIG) as conn:
             with conn.cursor() as cur:
                 cur.execute("SELECT name FROM users LIMIT 1;")
                 row = cur.fetchone()
+                print("DB result:", row)
                 if row:
                     return row[0]
     except Exception as e:
-        print(f"DB error: {e}")
+        print("DB ERROR:", e)
 
     return None
 
