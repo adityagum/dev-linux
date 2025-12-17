@@ -2,6 +2,13 @@ FROM python:3.11-slim
 
 WORKDIR /app
 
+# Install system dependencies for psycopg
+RUN apt-get update && apt-get install -y \
+    libpq5 \
+    libpq-dev \
+    gcc \
+    && rm -rf /var/lib/apt/lists/*
+
 # Install Poetry
 RUN pip install poetry
 
@@ -12,13 +19,11 @@ COPY pyproject.toml poetry.lock* ./
 RUN poetry config virtualenvs.create false
 
 # Install dependencies
-RUN poetry install --no-dev
+RUN poetry install --without dev --no-root
 
 # Copy source code
 COPY mini_python_project/ ./mini_python_project/
 
-# Expose port
 EXPOSE 8000
 
-# Run the application
 CMD ["poetry", "run", "start"]
