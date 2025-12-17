@@ -6,11 +6,11 @@ app = FastAPI(title="Mini Python Project", version="0.1.0")
 
 # Konfigurasi DB (sementara hardcode, nanti bisa env)
 DB_CONFIG = {
-    "host": "127.0.0.1",
+    "host": "postgres-db",
     "port": 5432,
     "dbname": "appdb",
     "user": "userdev",
-    "password": "devlinux1234/",
+    "password": "PasswordBaru123!",
 }
 
 def get_one_user_name():
