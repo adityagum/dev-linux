@@ -1,0 +1,43 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:16
+    container_name: postgres-db
+    restart: always
+    environment:
+      POSTGRES_DB: appdb
+      POSTGRES_USER: userdev
+      POSTGRES_PASSWORD: Userdev123!
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - app-net
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: dev-linux-app
+    restart: always
+    depends_on:
+      - db
+    environment:
+      DB_HOST: postgres-db
+      DB_PORT: 5432
+      DB_NAME: appdb
+      DB_USER: userdev
+      DB_PASSWORD: Userdev123!
+    ports:
+      - "8000:8000"
+    networks:
+      - app-net
+
+networks:
+  app-net:
+    driver: bridge
+
+volumes:
+  pgdata:
